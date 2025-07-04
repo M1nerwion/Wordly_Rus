@@ -3,23 +3,52 @@
 #include		<vector>
 #include		<string>
 #include		<random>
-#include        <chrono>
-#include        <thread>
-#include        <limits>
-#define ERASE   "\x1b[1F\x1b[2K"   // стереть строку после cin
-#define BY      "\x1b[2;30;43m"   // вывод черный текст на желтом фоне
-#define BG      "\x1b[2;30;42m"  // вывод черный текст на зеленом фоне
-#define RESET   "\x1b[0m"       // сбросить цвет
+#define ERASE   "\x1b[1F\x1b[2K"   				// стереть строку после cin
+#define BY      "\x1b[2;30;43m"   				// вывод черный текст на желтом фоне
+#define BG      "\x1b[2;30;42m"  				// вывод черный текст на зеленом фоне
+#define BR      "\x1b[2;30;41m"                 // вывод черный текст на красном фоне
+#define BGRAY   "\x1b[38;5;0m\x1b[48;5;245m"    // черный текст на сером фоне
+#define RESET   "\x1b[0m"       				// сбросить цвет
 
 int n = 5;
 
 void read(std::vector<char>& vec) // чтение слова пользователя
 {
-	for (size_t i = 0; i < 5; ++i)
-	{
-		std::cin.get(vec[i]);
-	}
-}
+    std::ios_base::sync_with_stdio(false); // отключение синхронизации потоков, чтобы на линуксе не ломался вывод
+    bool flag;
+    do
+    {
+        flag = false;
+        for (auto& i : vec) { i = '\0'; } // обнуление вектора
+        for (size_t i = 0; i < 5; ++i) // считывание слова по буквам из консоли
+        {
+            std::cin.get(vec[i]);
+            if (vec[i] == '\n')
+            {
+                std::cout << BR << "ERROR: write only 4-letter words" << RESET << "\nPress ENTER to continue" << std::endl;
+                std::cin.ignore(std::cin.rdbuf()->in_avail());
+                std::cin.get();
+                std::cout << "\x1b[4F\x1b[0J";
+                flag = true;
+                break;
+            }
+        }
+
+        if (vec[4] != '\0' && vec[4] != '\n')
+        {
+            std::cin.get(vec[5]);
+            if ((vec[5] != '\n') && flag == false) // если  пользователь ввел больше 5 букв, должен перепечатать
+            {
+                std::cout << BR << "ERROR: write only 5-letter words" << RESET << "\nPress ENTER to continue" << std::endl;
+                std::cin.ignore(std::cin.rdbuf()->in_avail());
+                std::cin.get(); // ожидание нажатия
+                std::cout << "\x1b[4F\x1b[0J"; // очистка консоли от длинного слова и предкпреждения
+                flag = true;
+            }
+        }
+        std::cin.ignore(std::cin.rdbuf()->in_avail());
+    } while (flag);
+} // read
 
 void color_processing(std::vector<char>& vec_user, std::vector<char>& vec_hidden_word) // функция окраски и вывода слов
 {
@@ -143,7 +172,7 @@ int main(){
 	for (auto p : answer_word) { std::cout << p; }
 	std::cout << '\n';
 
-	std::vector<char> user_word(5);
+	std::vector<char> user_word(++n);
 	while (count_of_attemp < 6) {
 		read(user_word);
 		std::cin.clear(); // сброс ошибок и флагов потока
