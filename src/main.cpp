@@ -9,6 +9,8 @@
 #define BR      "\x1b[2;30;41m"                 // вывод черный текст на красном фоне
 #define BGRAY   "\x1b[38;5;0m\x1b[48;5;245m"    // черный текст на сером фоне
 #define RESET   "\x1b[0m"       				// сбросить цвет
+#include <chrono>
+#include <thread>
 
 int n = 5; // количество букв в слове
 int count_of_attemp = 0; // количество попыток
@@ -104,7 +106,6 @@ std::vector<char> transform(std::string line) {//Переводит string в в
 }
 
 std::vector<char> choice_of_random_word(std::string file_slov) {//Функция выбиарет псевдослучайным образом слово
-
 	std::string line;//Слова, которые будут перебираться(Слова в файле записаны одно в строку)
 	long long count = amount_of_words(file_slov); //Получаем количество строк в файле
 	std::random_device rd;   // non-deterministic generator            Кусок кода на 4 строки для получения рангдомного числа
@@ -129,7 +130,6 @@ bool check_letters(std::vector<char> line, std::vector<char> user_word) {//Фу�
 		}
 	}
 	return true;
-	//return false;
 }
 
 bool check_on_word(std::vector<char> user_word, std::string file_slov) {//Функция которая проверяет сущесвтование слова
@@ -149,35 +149,23 @@ bool check_on_word(std::vector<char> user_word, std::string file_slov) {//Фун
 	return condition;//Возвращаем состояние проверки
 }
 
-bool check_to_right_answer(std::vector<char> answer_word, std::vector<char> user_word, std::string file_slov) {//Функция проверяет слово соотвествие отгаданному и на сущесвтование такого слова в целом
-	//bool condition = check_letters(answer_word, user_word);//Проверяем, является ли слово, предложенное пользователем отгаданным
-	//if (condition) {//если отгадал, то true
-	//	return condition;
-	//}
-	////else {//Если нет, то проверяем, есть ли такое слово в целом
-	////	return check_on_word(user_word, file_slov);
-	////}
-	return check_letters(answer_word, user_word);
-}
-
 int main(){
 	srand(time(0));
-	setlocale(LC_ALL, "RUS");
+	//setlocale(LC_ALL, "ru_RU.UTF-8");
 	bool gavno = false;
+	std::ios_base::sync_with_stdio(false); // отключение синхронизации потоков, чтобы на линуксе не ломался вывод
 	
 	//std::string file_slov = "fiveletters.txt";
 	std::string file_slov = "g.txt";
-	std::cout << "   ";
 	std::vector<char> answer_word = choice_of_random_word(file_slov);
+	std::cout << "   ";
 	for (auto p : answer_word) { std::cout << p; }
 	std::cout << '\n';
 
 	std::vector<char> user_word(n+1); // вектор всегда будет больше 
 	while (count_of_attemp < 6) {
 		read(user_word);
-		std::cin.clear(); // сброс ошибок и флагов потока
-		std::cin.ignore(std::cin.rdbuf()->in_avail()); // очистка всего буфера
-		if (check_to_right_answer(answer_word, user_word, file_slov)) {
+		if (check_letters(answer_word, user_word)) {
 			color_processing(user_word, answer_word);
 			break;
 		}
@@ -188,17 +176,13 @@ int main(){
 		}
 		else {
 			std::cout << BR << "Ошибка, такого слова не существует" << RESET << "\nНажмите ENTER, чтобы повторить попытку ..." << std::endl;
-			    std::cin.ignore(std::cin.rdbuf()->in_avail());
-                std::cin.get(); // ожидание нажатия
-                std::cout << "\x1b[4F\x1b[0J"; // очистка консоли от длинного слова и предкпреждения
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+            std::cin.get(); // ожидание нажатия
+            std::cout << "\x1b[4F\x1b[0J"; // очистка консоли от длинного слова и предкпреждения
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
 		}
 	}
 	if (count_of_attemp == 6) {
 		std::cout << "ДОЛБОЕБ\n";
 	}
-	
-
-
-	//std::string slovo = "камни";
-	//std::cout<<check_to_right_answer(answer_word, transform(slovo), file_slov);
 }
