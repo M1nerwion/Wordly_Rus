@@ -1,7 +1,7 @@
 #include "functions.h"
 
-extern int n = 5; // количество букв в слове
-extern int count_of_attemp = 0; // количество попыток
+int n = 5; // количество букв в слове
+int count_of_attemp = 0; // количество попыток
 
 int main(){
 	srand(time(0));
