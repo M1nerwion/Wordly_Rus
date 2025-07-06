@@ -18,7 +18,7 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 			{
 				std::wcout << BR << L"Ошибка, слово должно состоять из 5 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
 				std::wcin.ignore(std::wcin.rdbuf()->in_avail()); // очистка буфера входного потока
-				std::wcin.get(); // ожидание нажатия enter
+				while(std::wcin.get() != L'\n') {} // ожидание нажатия
 				std::wcin.ignore(std::wcin.rdbuf()->in_avail());
 				std::wcout << L"\x1b[4F\x1b[0J" << count_of_attemp + 1 << L"  "; // стираем надписи предупреждения и введенное слово
 				flag = true;
@@ -33,7 +33,7 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 			{
 				std::wcout << BR << L"Ошибка, слово должно состоять из 5 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
 				std::wcin.ignore(std::wcin.rdbuf()->in_avail()); // очистка буфера
-				std::wcin.get(); // ожидание нажатия
+				while(std::wcin.get() != L'\n') {} // ожидание нажатия
 				std::wcin.ignore(std::wcin.rdbuf()->in_avail());
 				std::wcout << L"\x1b[4F\x1b[0J" << count_of_attemp + 1 << L"  "; // очистка консоли от длинного слова и предупреждения
 				flag = true;

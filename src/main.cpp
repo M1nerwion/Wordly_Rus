@@ -32,11 +32,11 @@ int main(){
 		else {
 			std::wcout << BR << L"Ошибка, такого слова не существует" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl;
 			std::wcin.ignore(std::wcin.rdbuf()->in_avail());
-            std::wcin.get(); // ожидание нажатия
+            while(std::wcin.get() != L'\n') {} // ожидание нажатия
 			std::wcin.ignore(std::wcin.rdbuf()->in_avail());
 			//std::wcin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
             std::wcout << L"\x1b[4F\x1b[0J"; // очистка консоли от длинного слова и предкпреждения
-			std::wcin.ignore(std::wcin.rdbuf()->in_avail());
+			//std::wcin.ignore(std::wcin.rdbuf()->in_avail());
 		}
 	}
 	if (count_of_attemp == 6) {
