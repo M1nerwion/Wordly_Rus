@@ -29,14 +29,14 @@ int main(){
 			continue;
 		}
 		else {
-			std::wcout << BR << "Ошибка, такого слова не существует" << RESET << "\nНажмите ENTER, чтобы повторить попытку ..." << std::endl;
+			std::wcout << BR << L"Ошибка, такого слова не существует" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl;
 			std::wcin.ignore(std::wcin.rdbuf()->in_avail());
             std::wcin.get(); // ожидание нажатия
-            std::wcout << "\x1b[4F\x1b[0J"; // очистка консоли от длинного слова и предкпреждения
+            std::wcout << L"\x1b[4F\x1b[0J"; // очистка консоли от длинного слова и предкпреждения
 			std::wcin.ignore(std::wcin.rdbuf()->in_avail());
 		}
 	}
 	if (count_of_attemp == 6) {
-		std::wcout << "ДОЛБОЕБ\n";
+		std::wcout << L"ДОЛБОЕБ\n";
 	}
 }

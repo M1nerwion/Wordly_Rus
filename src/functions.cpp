@@ -10,30 +10,30 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 	do
 	{
 		flag = false;
-		for (auto& i : vec) { i = '\0'; } // обнуление вектора
+		for (auto& i : vec) { i = L'\0'; } // обнуление вектора
 		for (size_t i = 0; i < 5; ++i) // считывание слова по буквам из консоли
 		{
 			std::wcin.get(vec[i]);
-			if (vec[i] == '\n') // если какой-то из элментов вектора заполнился '\n', значит слово короткое
+			if (vec[i] == 10) // если какой-то из элментов вектора заполнился '\n', значит слово короткое
 			{
-				std::wcout << BR << "Ошибка, слово должно состоять из 5 букв" << RESET << "\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
+				std::wcout << BR << L"Ошибка, слово должно состоять из 5 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
 				std::wcin.ignore(std::wcin.rdbuf()->in_avail()); // очистка буфера входного потока
 				std::wcin.get(); // ожидание нажатия enter
-				std::wcout << "\x1b[4F\x1b[0J" << count_of_attemp + 1 << "  "; // стираем надписи предупреждения и введенное слово
+				std::wcout << L"\x1b[4F\x1b[0J" << count_of_attemp + 1 << L"  "; // стираем надписи предупреждения и введенное слово
 				flag = true;
 				break;
 			}
 		}
 
-		if (vec[4] != '\0' && vec[4] != '\n')
+		if (vec[4] != L'\0' && vec[4] != 10)
 		{
 			std::wcin.get(vec[5]);
-			if ((vec[5] != '\n') && flag == false) // если  пользователь ввел больше 5 букв, должен перепечатать
+			if ((vec[5] != 10) && flag == false) // если  пользователь ввел больше 5 букв, должен перепечатать
 			{
-				std::wcout << BR << "Ошибка, слово должно состоять из 5 букв" << RESET << "\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
+				std::wcout << BR << L"Ошибка, слово должно состоять из 5 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
 				std::wcin.ignore(std::wcin.rdbuf()->in_avail()); // очистка буфера
 				std::wcin.get(); // ожидание нажатия
-				std::wcout << "\x1b[4F\x1b[0J" << count_of_attemp + 1 << "  "; // очистка консоли от длинного слова и предупреждения
+				std::wcout << L"\x1b[4F\x1b[0J" << count_of_attemp + 1 << L"  "; // очистка консоли от длинного слова и предупреждения
 				flag = true;
 			}
 		}
@@ -43,7 +43,7 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 
 void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word) // функция окраски и вывода слов
 {
-	std::wcout << ERASE << (count_of_attemp + 1) << "  ";
+	std::wcout << ERASE << (count_of_attemp + 1) << L"  ";
 	for (size_t i = 0; i < 5; ++i) // первый цикл для обхода букв по введенному слову
 	{
 		bool flag = false; // флаг для проверки, выведено ли уже слово

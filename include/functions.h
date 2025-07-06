@@ -5,12 +5,12 @@
 #include		<string>
 #include		<random>
 #include        <locale>
-#define ERASE   "\x1b[1F\x1b[2K"   				// ������� ������ ����� cin
-#define BY      "\x1b[2;30;43m"   				// ����� ������ ����� �� ������ ����
-#define BG      "\x1b[2;30;42m"  				// ����� ������ ����� �� ������� ����
-#define BR      "\x1b[2;30;41m"                 // ����� ������ ����� �� ������� ����
-#define BGRAY   "\x1b[38;5;0m\x1b[48;5;245m"    // ������ ����� �� ����� ����
-#define RESET   "\x1b[0m"						// �������� ����
+#define ERASE   L"\x1b[1F\x1b[2K"   				// ������� ������ ����� cin
+#define BY      L"\x1b[2;30;43m"   				// ����� ������ ����� �� ������ ����
+#define BG      L"\x1b[2;30;42m"  				// ����� ������ ����� �� ������� ����
+#define BR      L"\x1b[2;30;41m"                 // ����� ������ ����� �� ������� ����
+#define BGRAY   L"\x1b[38;5;0m\x1b[48;5;245m"    // ������ ����� �� ����� ����
+#define RESET   L"\x1b[0m"						// �������� ����
 
 //extern int n; // ���������� ���� � �����
 //extern int count_of_attemp; // ���������� �������
