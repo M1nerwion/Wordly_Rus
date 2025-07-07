@@ -10,6 +10,14 @@ int main(){
 	//std::wcin.ignore(std::wcin.rdbuf()->in_avail());
 	//setlocale(LC_ALL, "ru_RU.UTF-8");
 	std::ios_base::sync_with_stdio(false); // отключение синхронизации потоков, чтобы на линуксе не ломался вывод
+	std::wcout  << "  ____                     __   \n"
+				<< " |  _ \\                    \\_\\  \n"
+				<< " | |_) |   ___    _ __    / _ \\    ____   _   _ \n"
+				<< " |  _ <   / _ \\  | '_ \\  | | | |  / _  | | | | |\n"
+				<< " | |_) | | (_) | | |_) | | |_| | / / | | | |_| |\n"
+				<< " |____/   \\___/  | .__/   \\___/ /_/  |_|  \\__,_|\n"
+				<< "                 | |    \n"
+				<< "                 |_|     \n";
 	std::wcout << L"\n  Добро пожаловать в WORDLE на РУССКОМ!\n\n";
 	std::string file_slov = "src/fiveletters.txt";
 	//std::string file_slov = "src/g.txt";
