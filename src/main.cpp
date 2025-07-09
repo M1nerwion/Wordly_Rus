@@ -1,45 +1,60 @@
 #include "functions.h"
+//#include <windows.h>
 
 int n = 5; // количество букв в слове
 int count_of_attemp = 0; // количество попыток
+std::wstring alf = L"абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+std::vector<short> alf_vec(33);
 
 int main(){
 	srand(time(0));//Для того, чтобы каждый раз было разное семечко для генерации ПСЧ
+
 	std::locale::global(std::locale("ru_RU.UTF-8"));//Веселуха с кодировками
 	//std::wcout.setf(std::ios_base::unitbuf);
 	//std::wcin.ignore(std::wcin.rdbuf()->in_avail());
 	//setlocale(LC_ALL, "ru_RU.UTF-8");
+	//SetConsoleCP(1251);//Кодировка для винды
+	//SetConsoleOutputCP(1251);
+
 	std::ios_base::sync_with_stdio(false); // отключение синхронизации потоков, чтобы на линуксе не ломался вывод
 
 	//Вывод приветствия
-	std::wcout  << "  ____                     __   \n"
-				<< " |  _ \\                    \\_\\  \n"
-				<< " | |_) |   ___    _ __    / _ \\    ____   _   _ \n"
-				<< " |  _ <   / _ \\  | '_ \\  | | | |  / _  | | | | |\n"
-				<< " | |_) | | (_) | | |_) | | |_| | / / | | | |_| |\n"
-				<< " |____/   \\___/  | .__/   \\___/ /_/  |_|  \\__,_|\n"
-				<< "                 | |    \n"
-				<< "                 |_|     \n";
+	  std::wcout  << "  ____                   ____   \n"
+        << " |  _ \\                  \\___\\  \n"
+        << " | |_) |   ___    _ __     _\\ \\    ____   _   _ \n"
+        << " |  _ <   / _ \\  | '_ \\   / _  \\  / _  | | | | |\n"
+        << " | |_) | | (_) | | |_) | | (_) | / / | | | |_| |\n"
+        << " |____/   \\___/  | .__/   \\___/ /_/  |_|  \\__,_|\n"
+        << "                 | |    \n"
+        << "                 |_|     \n";
+
+
 	std::wcout << L"\n  Добро пожаловать в WORDLE на РУССКОМ!\n\n";
 
 	std::string file_slov = "src/fiveletters.txt";//Выбор файла
 	//std::string file_slov = "src/g.txt";
 
-	std::vector<wchar_t> answer_word = choice_of_random_word(file_slov);
+	std::vector<wchar_t> answer_word = choice_of_random_word(file_slov);//Выбор случайного слова
 	//std::wcout << "   ";//Для отладки вывод загаданного слова в начале
 	//for (auto p : answer_word) { std::wcout << p; }
 	//std::wcout << '\n';
+
+	std::wcout << L"  " << alf << RESET << L"\n\n";
 
 	std::vector<wchar_t> user_word(n+1); // вектор всегда будет больше 
 	while (count_of_attemp < 6) {//Оснвоной цикл программы
 		read(user_word);//Считываем слово, введенное пользователем
 		if (check_letters(answer_word, user_word)) {//Проверка на совпадение с отгаданным
 			color_processing(user_word, answer_word);//Процесс окрашивания клеточек
+			color_alf(user_word, answer_word, alf_vec);//Покраска алфавита
 			break;
 		}
 		else if (check_on_word(user_word, file_slov)) {//Проверка на существование данного слова
 			color_processing(user_word, answer_word);//Процесс окрашивания клеточек
 			++count_of_attemp;//Увеличиваем счетчик принятых слов(попыток)
+			color_alf(user_word, answer_word, alf_vec);//Покраска алфавита
+			//for (size_t i = 0; i < alf_vec.size(); i++) { std::wcout << alf_vec[i]; }//Для отладки, выводит вектор alf_vec состояний каждой буквы
+			std::wcout << L'\n'; 
 			continue;
 		}
 		else {//Случай, если слова не существует

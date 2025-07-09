@@ -19,11 +19,20 @@
 
 extern int n; // количество букв в слове
 extern int count_of_attemp; // количество попыток
+extern std::wstring alf;
+extern std::vector<short> alf_vec;
 
-void read(std::vector<wchar_t>& vec);
-void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word);
-long long amount_of_words(std::string file_slov);
-std::vector<wchar_t> transform(std::wstring line);
-std::vector<wchar_t> choice_of_random_word(std::string file_slov);
-bool check_letters(std::vector<wchar_t> line, std::vector<wchar_t> user_word);
-bool check_on_word(std::vector<wchar_t> user_word, std::string file_slov);
+void read(std::vector<wchar_t>& vec);//Функция считывания слова введеног пользователем
+void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word);//Процедура вывода введеных слова пользователем и окрашевание его буквы в нужные цвета
+long long amount_of_words(std::string file_slov); //Подсчет количесвтва слов в файле
+std::vector<wchar_t> transform(std::wstring line);//Перевод wstring в вектор wchar_t
+std::vector<wchar_t> choice_of_random_word(std::string file_slov);//Выбор случайног ослова из списка
+bool check_letters(std::vector<wchar_t> line, std::vector<wchar_t> user_word);//Проверка на совпадение двух слов
+bool check_on_word(std::vector<wchar_t> user_word, std::string file_slov);//Проверка на существование такого слова в списке
+
+int pos_in_alf_wchar(wchar_t liter);//Возвращает позицию данной буквы в алфавите
+bool ravenstvo_liter(wchar_t a, wchar_t b);//Проверка на равенство двух букв
+bool availability_of_liter_in_word(wchar_t liter, std::vector<wchar_t> answer_word);//Проверка на наличие данной буквы в слове
+void transformation_of_condition_of_alf_vec(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word, std::vector<wchar_t> &alf_vec);//Преобразовние вектора alf_vec после ввода пользователем слова
+void transformation_of_alf();//Раскраска алфавита по уже преобразованному вектору alf_vec
+void color_alf(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word, std::vector<short>& alf_vec);//ОФункция, расскрашивания алфавита

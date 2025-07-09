@@ -1,7 +1,9 @@
 ﻿#include "functions.h"
 
-extern int n; // количество букв в слове
-extern int count_of_attemp; // количество попыток
+//extern int n; // количество букв в слове
+//extern int count_of_attemp; // количество попыток
+//extern std::wstring alf;
+//extern std::vector<short> alf_vec;
 
 void read(std::vector<wchar_t>& vec) // чтение слова пользователя
 {
@@ -139,4 +141,95 @@ bool check_on_word(std::vector<wchar_t> user_word, std::string file_slov) {//Ф�
 	}
 	fin.close();//Закрываем поток
 	return condition;//Возвращаем состояние проверки
+}
+
+int pos_in_alf_wchar(wchar_t liter){//Возвращает позицию данной буквы в алфавите
+	for (size_t i = 0; i < alf_vec.size(); i++){
+		if (liter == alf[i])
+			return i;
+	}
+	return (alf_vec.size()-1);	
+}
+
+bool ravenstvo_liter(wchar_t a, wchar_t b){//Проверка на равенство двух wchar_t
+	return (a == b);
+}
+
+bool availability_of_liter_in_word(wchar_t liter, std::vector<wchar_t> answer_word){//Фкункция проверки наличия буквы в слове
+	bool flag = false;
+	for (size_t i = 0; i < n; i++){//Просто проходка по слову, если случилось совпадение, то флаг == true
+		if (answer_word[i] == liter){
+			flag = true;
+		}
+	}
+	return flag;
+}
+
+void transformation_of_condition_of_alf_vec(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word, std::vector<short> &alf_vec){//Функция преобразования вектора alf_vec, после введенного пользователем слова
+	//0 - буква не выбиралась пользователем (черный)
+	//1 - буква выбиралась пользователем, но нет в загаданном слове(серый)
+	//2 - буква выбиралась пользователем, есть в загаданном слове, но не на своем месте(желтый)
+	//3 - буква выбиралась пользователем, есть в загаданном слове и совпадает по местоположению(зеленый)
+	int condition_of_this_liter = 0;
+	int  pos_liter_in_alf;
+	for (size_t i = 0; i < n; i++) //Проход по слову
+	{ 
+		pos_liter_in_alf = pos_in_alf_wchar(user_word[i]);
+		condition_of_this_liter = alf_vec[pos_in_alf_wchar(user_word[i])];//Возвращает состояние данной буквы
+		if ((condition_of_this_liter % 2) == 1){//Если данная буква в состоянии 1(серый) или 3(зеленый)
+			continue;
+		}
+		else if (condition_of_this_liter == 2){//Если данная буква в состоянии 2(желтый)
+			if (ravenstvo_liter(user_word[i],answer_word[i])) {//Проверяем находится ли дананя буква в нужном месте
+				alf_vec[pos_liter_in_alf] = 3;//переводим в состояние 3
+			}
+		}
+		else {
+			if (ravenstvo_liter(user_word[i],answer_word[i])) {//Проверяем находится ли дананя буква в нужном месте
+				alf_vec[pos_liter_in_alf] = 3;//переводим в состояние 3
+			}
+			else if (availability_of_liter_in_word(user_word[i], answer_word)){//Проверяем есть ли данная буква в слове(не проверяем на равенство i-ыъ символов, так как это было сделано на один if выше)
+				alf_vec[pos_liter_in_alf] = 2;//переводим в состояние 2
+			}
+			else{//Если не находится в слове, то делаем серым
+				alf_vec[pos_liter_in_alf] = 1;//переводим в состояние 1
+			}
+		}
+	}
+}
+
+void transformation_of_alf(){
+	int count_of_peremeshenia = 2 + count_of_attemp;//Количесвто строк, на которое надо поднятся
+	std::wcout << L"\x1b[" << count_of_peremeshenia << "F";//Перемещаемся к строчке с алфавитом
+	//for (size_t i = 0; i < count_of_attemp; i++) { std::wcout << L"\x1b[1F"; }
+	//std::wcout << L"\x1b[0K";
+	//std::wcout << L"\x1b[1F"; 
+
+	std::wcout << L"  " << RESET;
+	for (size_t i = 0; i < alf_vec.size(); i++){
+			switch(alf_vec[i]){
+				case 0:
+					std::wcout << RESET << alf[i] << RESET;
+					break;
+				case 1:
+					std::wcout << RESET << BGRAY << alf[i] << RESET;
+					break;
+				case 2:
+					std::wcout << RESET << BY << alf[i] << RESET;
+					break;
+				case 3:
+					std::wcout << RESET << BG << alf[i] << RESET;
+					break;
+				default: 
+            		std::wcout << RESET << "\tError, fun: transformation_of_alf, fix pls\t" << RESET;
+            		break;	
+			}
+	}
+
+	std::wcout << L"\x1b[" << (count_of_peremeshenia-1) << "E";//Перемещаем курсор обратно на такое же количество строк вниз
+}
+
+void color_alf(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word, std::vector<short>& alf_vec){
+	transformation_of_condition_of_alf_vec(user_word, answer_word, alf_vec);//Преобразуем вектор alf_vec в соотвествии введеному слову
+	transformation_of_alf();//Переход к алфавиту, его раскраска, возврат обратно в конец
 }
