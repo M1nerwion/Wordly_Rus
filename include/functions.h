@@ -19,8 +19,8 @@
 
 extern int n; // количество букв в слове
 extern int count_of_attemp; // количество попыток
-extern std::wstring alf;
-extern std::vector<short> alf_vec;
+extern std::wstring alf;//Просто русский алфавит, нужен для алфавита и его расскрашивания
+extern std::vector<short> alf_vec;//Вектор состояний каждой буквы алфавита, по поводу состояний смотри функцию transformation_of_condition_of_alf_vec
 
 void read(std::vector<wchar_t>& vec);//Функция считывания слова введеног пользователем
 void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word);//Процедура вывода введеных слова пользователем и окрашевание его буквы в нужные цвета
@@ -34,5 +34,5 @@ int pos_in_alf_wchar(wchar_t liter);//Возвращает позицию дан
 bool ravenstvo_liter(wchar_t a, wchar_t b);//Проверка на равенство двух букв
 bool availability_of_liter_in_word(wchar_t liter, std::vector<wchar_t> answer_word);//Проверка на наличие данной буквы в слове
 void transformation_of_condition_of_alf_vec(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word, std::vector<wchar_t> &alf_vec);//Преобразовние вектора alf_vec после ввода пользователем слова
-void transformation_of_alf();//Раскраска алфавита по уже преобразованному вектору alf_vec
+void transformation_of_alf(bool condition_of_win_word);//Раскраска алфавита по уже преобразованному вектору alf_vec
 void color_alf(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word, std::vector<short>& alf_vec);//ОФункция, расскрашивания алфавита

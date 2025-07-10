@@ -198,8 +198,9 @@ void transformation_of_condition_of_alf_vec(std::vector<wchar_t> user_word, std:
 	}
 }
 
-void transformation_of_alf(){
+void transformation_of_alf(bool condition_of_win_word){
 	int count_of_peremeshenia = 2 + count_of_attemp;//Количесвто строк, на которое надо поднятся
+	if (condition_of_win_word) { count_of_peremeshenia = 3 + count_of_attemp; }//Если слово победное
 	std::wcout << L"\x1b[" << count_of_peremeshenia << "F";//Перемещаемся к строчке с алфавитом
 	//for (size_t i = 0; i < count_of_attemp; i++) { std::wcout << L"\x1b[1F"; }
 	//std::wcout << L"\x1b[0K";
@@ -226,10 +227,18 @@ void transformation_of_alf(){
 			}
 	}
 
-	std::wcout << L"\x1b[" << (count_of_peremeshenia-1) << "E";//Перемещаем курсор обратно на такое же количество строк вниз
+	if (condition_of_win_word) {//Если слово победное
+		std::wcout << L"\x1b[" << (count_of_peremeshenia) << "E";//Перемещаем курсор обратно на такое же количество строк вниз
+	}
+	else{//Если слово не победное
+		std::wcout << L"\x1b[" << (count_of_peremeshenia-1) << "E";//Перемещаем курсор обратно на такое же количество строк вниз
+	}
 }
 
 void color_alf(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word, std::vector<short>& alf_vec){
 	transformation_of_condition_of_alf_vec(user_word, answer_word, alf_vec);//Преобразуем вектор alf_vec в соотвествии введеному слову
-	transformation_of_alf();//Переход к алфавиту, его раскраска, возврат обратно в конец
+
+	bool condition_of_win_word = false;
+	if (check_letters(answer_word, user_word)){ condition_of_win_word = true; }
+	transformation_of_alf(condition_of_win_word);//Переход к алфавиту, его раскраска, возврат обратно в конец
 }
