@@ -6,6 +6,7 @@
 #include    <random>
 #include    <locale>
 #include    <limits>
+#include    <algorithm>
 #define ERASE   L"\x1b[1F\x1b[2K"           // стереть строку после cin
 #define BY      L"\x1b[2;30;43m"           // вывод черный текст на желтом фоне
 #define BG      L"\x1b[2;30;42m"          // вывод черный текст на зеленом фоне
@@ -23,7 +24,8 @@ extern std::wstring alf;//Просто русский алфавит, нужен
 extern std::vector<short> alf_vec;//Вектор состояний каждой буквы алфавита, по поводу состояний смотри функцию transformation_of_condition_of_alf_vec
 
 void read(std::vector<wchar_t>& vec);//Функция считывания слова введеног пользователем
-void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word);//Процедура вывода введеных слова пользователем и окрашевание его буквы в нужные цвета
+void color_processing(std::vector<wchar_t> vec_user, std::vector<wchar_t> vec_hidden_word);//Процедура вывода введеных слова пользователем и окрашевание его буквы в нужные цвета
+void delete_letter(std::vector<wchar_t>& vec, wchar_t& elem); // удаление буквы из вектора слова
 long long amount_of_words(std::string file_slov); //Подсчет количесвтва слов в файле
 std::vector<wchar_t> transform(std::wstring line);//Перевод wstring в вектор wchar_t
 std::vector<wchar_t> choice_of_random_word(std::string file_slov);//Выбор случайног ослова из списка

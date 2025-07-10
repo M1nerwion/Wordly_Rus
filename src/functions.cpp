@@ -16,7 +16,7 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 		for (size_t i = 0; i < 5; ++i) // считывание слова по буквам из консоли
 		{
 			std::wcin.get(vec[i]);
-			if (vec[i] == 10) // если какой-то из элментов вектора заполнился '\n', значит слово короткое
+			if (vec[i] == L'\n') // если какой-то из элментов вектора заполнился '\n', значит слово короткое
 			{
 				std::wcout << BR << L"Ошибка, слово должно состоять из 5 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
 				std::wcin.clear();
@@ -30,10 +30,10 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 			}
 		}
 
-		if (vec[4] != L'\0' && vec[4] != 10)
+		if (vec[4] != L'\0' && vec[4] != L'\n')
 		{
 			std::wcin.get(vec[5]);
-			if ((vec[5] != 10) && flag == false) // если  пользователь ввел больше 5 букв, должен перепечатать
+			if ((vec[5] != L'\n') && flag == false) // если  пользователь ввел больше 5 букв, должен перепечатать
 			{
 				std::wcout << BR << L"Ошибка, слово должно состоять из 5 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
 				std::wcin.clear();
@@ -50,35 +50,39 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 	} while (flag); // продолжаем цикл, пока не будет введено слово нормальной длины
 } // read
 
-void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word) // функция окраски и вывода слов
+void color_processing(std::vector<wchar_t> vec_user, std::vector<wchar_t> vec_hidden_word) // функция окраски и вывода слов
 {
 	std::wcout << ERASE << (count_of_attemp + 1) << L"  ";
-	for (size_t i = 0; i < 5; ++i) // первый цикл для обхода букв по введенному слову
+	for (size_t i = 0; i < n; ++i) // первый цикл для обхода букв по введенному слову
 	{
-		bool flag = false; // флаг для проверки, выведено ли уже слово
-
-		if (vec_user[i] == vec_hidden_word[i]) // если буква на в загаданном слове есть и на той же позиции, меняем флаг и выводим
+		if (vec_user[i] == vec_hidden_word[i]) // если буква в загаданном слове есть и на той же позиции, меняем флаг и выводим
 		{
-			flag = true;
-			std::wcout << BG << vec_user[i] << RESET;
+			std::wcout << BG << vec_user[i] << RESET; // буква выводится на зеленом фоне
+			delete_letter(vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
 			continue;
 		}
-		else // если буква не на той же позиции, обходим остальльные буквы в загаданном слове
+		else if(std::count(vec_hidden_word.begin(), vec_hidden_word.end(), vec_user[i]) > 0) // если буква есть в слове - подсветим желтым
 		{
-			for (size_t j = 0; j < 5; ++j) // воторой цикл для обхода по загаданному слову
-			{
-				if (vec_user[i] == vec_hidden_word[j])
-				{
-					flag = true;
-					std::wcout << BY << vec_user[i] << RESET;
-					break;
-				}
-			}
+			std::wcout << BY << vec_user[i] << RESET; // буквва выводиится на желтом фоне
+			delete_letter(vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
+			continue;
 		}
-		if (!flag) std::wcout << BGRAY << vec_user[i] << RESET; // если буквы нет, выводим без подсветки
+		else std::wcout << BGRAY << vec_user[i] << RESET; // если буквы нет, выводим без подсветки
 	}
 	std::wcout << std::endl;
 } // color_processing
+
+void delete_letter(std::vector<wchar_t>& vec, wchar_t& elem)
+{
+	for(auto& i : vec)
+	{
+		if(i == elem)
+		{
+			i = L'\n';
+			break;
+		}
+	}
+}
 
 ///////////////////////////////////////////////////////////////////////
 long long amount_of_words(std::string file_slov) {//Находит количество слов в файле
