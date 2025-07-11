@@ -9,27 +9,11 @@ std::vector<short> alf_vec(33);//Вектор состояний каждой б
 int main(){
 	srand(time(0));//Для того, чтобы каждый раз было разное семечко для генерации ПСЧ
 
-	std::locale::global(std::locale("ru_RU.UTF-8"));//Веселуха с кодировками
-	//std::wcout.setf(std::ios_base::unitbuf);
-	//std::wcin.ignore(std::wcin.rdbuf()->in_avail());
-	//setlocale(LC_ALL, "ru_RU.UTF-8");
-	//SetConsoleCP(1251);//Кодировка для винды
-	//SetConsoleOutputCP(1251);
-
+	SetKodirovka();//Процедура установки кодировок
+	
 	std::ios_base::sync_with_stdio(false); // отключение синхронизации потоков, чтобы на линуксе не ломался вывод
 
-	//Вывод приветствия
-	  std::wcout  << "  ____                   ____   \n"
-        << " |  _ \\                  \\___\\  \n"
-        << " | |_) |   ___    _ __     _\\ \\    ____   _   _ \n"
-        << " |  _ <   / _ \\  | '_ \\   / _  \\  / _  | | | | |\n"
-        << " | |_) | | (_) | | |_) | | (_) | / / | | | |_| |\n"
-        << " |____/   \\___/  | .__/   \\___/ /_/  |_|  \\__,_|\n"
-        << "                 | |    \n"
-        << "                 |_|     \n";
-
-
-	std::wcout << L"\n  Добро пожаловать в WORDLE на РУССКОМ!\n\n";
+	print_greeting();//Функция вывода приветствия
 
 	std::string file_slov = "src/fiveletters.txt";//Выбор файла
 	//std::string file_slov = "src/g.txt";

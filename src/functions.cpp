@@ -256,3 +256,27 @@ void color_alf(std::vector<wchar_t> user_word, std::vector<wchar_t> answer_word,
 	if (check_letters(answer_word, user_word)){ condition_of_win_word = true; }
 	transformation_of_alf(condition_of_win_word);//Переход к алфавиту, его раскраска, возврат обратно в конец
 }
+
+void SetKodirovka(){//Процедура установки кодировок
+	std::locale::global(std::locale("ru_RU.UTF-8"));//Веселуха с кодировками
+	//std::wcout.setf(std::ios_base::unitbuf);
+	//std::wcin.ignore(std::wcin.rdbuf()->in_avail());
+	//setlocale(LC_ALL, "ru_RU.UTF-8");
+	//SetConsoleCP(1251);//Кодировка для винды
+	//SetConsoleOutputCP(1251);
+}
+
+void print_greeting(){//Функция вывода приветствия
+	//Вывод приветствия
+	  std::wcout  << "  ____                   ____   \n"
+        << " |  _ \\                  \\___\\  \n"
+        << " | |_) |   ___    _ __     _\\ \\    ____   _   _ \n"
+        << " |  _ <   / _ \\  | '_ \\   / _  \\  / _  | | | | |\n"
+        << " | |_) | | (_) | | |_) | | (_) | / / | | | |_| |\n"
+        << " |____/   \\___/  | .__/   \\___/ /_/  |_|  \\__,_|\n"
+        << "                 | |    \n"
+        << "                 |_|     \n";
+
+
+	std::wcout << L"\n  Добро пожаловать в WORDLE на РУССКОМ!\n\n";
+}

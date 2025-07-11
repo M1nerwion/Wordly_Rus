@@ -23,6 +23,9 @@ extern int count_of_attemp; // количество попыток
 extern std::wstring alf;//Просто русский алфавит, нужен для алфавита и его расскрашивания
 extern std::vector<short> alf_vec;//Вектор состояний каждой буквы алфавита, по поводу состояний смотри функцию transformation_of_condition_of_alf_vec
 
+void SetKodirovka();//Процедура установки кодировок
+void print_greeting();//Функция вывода приветствия
+
 void read(std::vector<wchar_t>& vec);//Функция считывания слова введеног пользователем
 void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word);//Процедура вывода введеных слова пользователем и окрашевание его буквы в нужные цвета
 void delete_letter(std::vector<wchar_t>& vec, wchar_t& elem); // удаление буквы из вектора слова
