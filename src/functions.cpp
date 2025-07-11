@@ -50,24 +50,34 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 	} while (flag); // продолжаем цикл, пока не будет введено слово нормальной длины
 } // read
 
-void color_processing(std::vector<wchar_t> vec_user, std::vector<wchar_t> vec_hidden_word) // функция окраски и вывода слов
+void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word) // функция окраски и вывода слов
 {
-	std::wcout << ERASE << (count_of_attemp + 1) << L"  ";
-	for (size_t i = 0; i < n; ++i) // первый цикл для обхода букв по введенному слову
+	std::vector<wchar_t> copy_vec_hidden_word = vec_hidden_word; // копия загаданного слова, в которой можно удалять буквы
+	std::vector<std::wstring> color_buffer(n); // буфер для заполнения цветами букв
+
+	for(size_t i = 0; i < n; ++i) // сначала определяем все угаданные буквы
 	{
 		if (vec_user[i] == vec_hidden_word[i]) // если буква в загаданном слове есть и на той же позиции, меняем флаг и выводим
 		{
-			std::wcout << BG << vec_user[i] << RESET; // буква выводится на зеленом фоне
-			delete_letter(vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
-			continue;
+			color_buffer[i] = BG; // заполняем соответсвующую позицию в буфере окраски зеленым цветом
+			delete_letter(copy_vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
 		}
-		else if(std::count(vec_hidden_word.begin(), vec_hidden_word.end(), vec_user[i]) > 0) // если буква есть в слове - подсветим желтым
+	}
+
+	for (size_t i = 0; i < n; ++i) // вторым циклом проверяем буквы, стоящие не на своей позиции
+	{
+		if(std::count(copy_vec_hidden_word.begin(), copy_vec_hidden_word.end(), vec_user[i]) > 0 && color_buffer[i] == L"") // если буква есть в слове - подсветим желтым
 		{
-			std::wcout << BY << vec_user[i] << RESET; // буквва выводиится на желтом фоне
-			delete_letter(vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
-			continue;
+			color_buffer[i] = BY;
+			delete_letter(copy_vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
 		}
-		else std::wcout << BGRAY << vec_user[i] << RESET; // если буквы нет, выводим без подсветки
+		else if(color_buffer[i] == L"") color_buffer[i] = BGRAY; // если буквы нет, выводим без подсветки
+	}
+	
+	std::wcout << ERASE << (count_of_attemp + 1) << L"  "; // стираем написанное слово
+	for(size_t i = 0; i < n; ++i) // выводим слово, окрашивая цветами из буфера
+	{
+		std::wcout << color_buffer[i] << vec_user[i] << RESET;
 	}
 	std::wcout << std::endl;
 } // color_processing
