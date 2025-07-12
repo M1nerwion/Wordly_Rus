@@ -69,7 +69,7 @@ void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_
 		if(std::count(copy_vec_hidden_word.begin(), copy_vec_hidden_word.end(), vec_user[i]) > 0 && color_buffer[i] == L"") // если буква есть в слове - подсветим желтым
 		{
 			color_buffer[i] = BY;
-			delete_letter(copy_vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
+			//delete_letter(copy_vec_hidden_word, vec_user[i]); // удаление буквы из копии вектора загаданного слова
 		}
 		else if(color_buffer[i] == L"") color_buffer[i] = BGRAY; // если буквы нет, выводим без подсветки
 	}
