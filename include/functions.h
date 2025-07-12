@@ -25,6 +25,7 @@ extern std::vector<short> alf_vec;//Вектор состояний каждой
 
 void SetKodirovka();//Процедура установки кодировок
 void print_greeting();//Функция вывода приветствия
+int chase_of_mods(std::string &file_slov);//Функция выбора пользователем режима(количества букв)
 
 void read(std::vector<wchar_t>& vec);//Функция считывания слова введеног пользователем
 void color_processing(std::vector<wchar_t>& vec_user, std::vector<wchar_t>& vec_hidden_word);//Процедура вывода введеных слова пользователем и окрашевание его буквы в нужные цвета

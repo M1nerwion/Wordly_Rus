@@ -10,10 +10,10 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 	bool flag;
 	std::wcout << (count_of_attemp + 1) << "  ";
 	do
-	{
+	{	
 		flag = false;
 		for (auto& i : vec) { i = L'\0'; } // обнуление вектора
-		for (size_t i = 0; i < 5; ++i) // считывание слова по буквам из консоли
+		for (size_t i = 0; i < n; ++i) // считывание слова по буквам из консоли
 		{
 			std::wcin.get(vec[i]);
 			if (vec[i] == L'\n') // если какой-то из элментов вектора заполнился '\n', значит слово короткое
@@ -30,10 +30,10 @@ void read(std::vector<wchar_t>& vec) // чтение слова пользова
 			}
 		}
 
-		if (vec[4] != L'\0' && vec[4] != L'\n')
+		if (vec[n-1] != L'\0' && vec[n-1] != L'\n')
 		{
-			std::wcin.get(vec[5]);
-			if ((vec[5] != L'\n') && flag == false) // если  пользователь ввел больше 5 букв, должен перепечатать
+			std::wcin.get(vec[n]);
+			if ((vec[n] != L'\n') && flag == false) // если  пользователь ввел больше 5 букв, должен перепечатать
 			{
 				std::wcout << BR << L"Ошибка, слово должно состоять из 5 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
 				std::wcin.clear();
@@ -217,7 +217,7 @@ void transformation_of_alf(bool condition_of_win_word){
 	if (condition_of_win_word) { count_of_peremeshenia = 3 + count_of_attemp; }//Если слово победное
 	std::wcout << L"\x1b[" << count_of_peremeshenia << "F";//Перемещаемся к строчке с алфавитом
 	//for (size_t i = 0; i < count_of_attemp; i++) { std::wcout << L"\x1b[1F"; }
-	//std::wcout << L"\x1b[0K";
+	std::wcout << L"\x1b[2K";//Если не заработает - закомментировать
 	//std::wcout << L"\x1b[1F"; 
 
 	std::wcout << L"  " << RESET;
@@ -280,3 +280,61 @@ void print_greeting(){//Функция вывода приветствия
 
 	std::wcout << L"\n  Добро пожаловать в WORDLE на РУССКОМ!\n\n";
 }
+
+int chase_of_mods(std::string& file_slov) {//Функция выбора пользователем режима(количества букв)
+	wchar_t number_of_liters = 0;
+	wchar_t next_liter = 0;
+	bool flag;
+	int int_number_of_liters = 0;
+	do
+	{
+		flag = false;
+		std::wcout << L"  Пожалуйста, введите количество букв в слове (от 4 до 7) и нажмите ENTER\n";
+		std::wcin.get(number_of_liters);//Считываем основное число
+		std::wcin.get(next_liter);//Считываем следующий символ
+		if ((next_liter == L'\n') and ('4' <= number_of_liters) and (number_of_liters  <= '7')) {
+			switch (int(number_of_liters))
+			{
+			case 52:
+				file_slov = "src/fourletters.txt";
+				int_number_of_liters = 4;
+				break;
+			case 53:
+				file_slov = "src/fiveletters.txt";
+				int_number_of_liters = 5;
+				break;
+			case 54:
+				file_slov = "src/sixletters.txt";
+				int_number_of_liters = 6;
+				break;
+			case 55:
+				file_slov = "src/sevenletters.txt";
+				int_number_of_liters = 7;
+				break;
+			}
+
+			//std::wcout << L"\x1b[1F\x1b[2K"; //Стереть строку
+			//std::wcout <<L"\x1b[1F\x1b[2K" //Подняться, стереть строку
+			std::wcout << L"\x1b[2F\x1b[0J";
+			std::wcout << L"  Количество букв в слове: " << number_of_liters << L"\n\n";//Вывод сообщения о выбраном режиме
+
+		}
+		else
+		{
+			//предупреждение и возвращение к вводу
+			std::wcout << BR << L"Ошибка, в слове может быть от 4 до 7 букв" << RESET << L"\nНажмите ENTER, чтобы повторить попытку ..." << std::endl; // вывод предупреждения
+			std::wcin.clear();
+			std::wcin.ignore(std::wcin.rdbuf()->in_avail()); // очистка буфера
+			while (std::wcin.get() != L'\n') {} // ожидание нажатия
+			std::wcin.clear();
+			std::wcin.ignore(std::wcin.rdbuf()->in_avail());
+
+			std::wcout << L"\x1b[5F\x1b[0J";
+			flag = true;
+		}
+		std::wcin.clear();
+		std::wcin.ignore(std::cin.rdbuf()->in_avail());
+	} while (flag);
+	return int_number_of_liters;//Возврашаем количество букв
+}
+	

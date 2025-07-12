@@ -15,7 +15,10 @@ int main(){
 
 	print_greeting();//Функция вывода приветствия
 
-	std::string file_slov = "src/fiveletters.txt";//Выбор файла
+	std::string file_slov = "src/fiveletters.txt";//Определение файла по-умолчанию
+	n = chase_of_mods(file_slov);//Функция выбора пользователем режима(количества букв)
+
+	//std::string file_slov = "src/fiveletters.txt";//Выбор файла
 	//std::string file_slov = "src/g.txt";
 
 	std::vector<wchar_t> answer_word = choice_of_random_word(file_slov);//Выбор случайного слова
@@ -23,7 +26,7 @@ int main(){
 	//for (auto p : answer_word) { std::wcout << p; }
 	//std::wcout << '\n';
 
-	std::wcout << L"  " << alf << RESET << L"\n\n";
+	std::wcout << L"  " << alf << RESET << L"\n\n";//Вывод стартового алфавита
 
 	std::vector<wchar_t> user_word(n+1); // вектор всегда будет больше 
 	while (count_of_attemp < 6) {//Оснвоной цикл программы
