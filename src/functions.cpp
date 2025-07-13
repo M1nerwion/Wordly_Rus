@@ -297,19 +297,19 @@ int chase_of_mods(std::string& file_slov) {//Функция выбора пол�
 			switch (int(number_of_liters))
 			{
 			case 52:
-				file_slov = "src/fourletters.txt";
+				file_slov = "/usr/share/wordly_rus/wordfiles/fourletters.txt";
 				int_number_of_liters = 4;
 				break;
 			case 53:
-				file_slov = "src/fiveletters.txt";
+				file_slov = "/usr/share/wordly_rus/wordfiles/fiveletters.txt";
 				int_number_of_liters = 5;
 				break;
 			case 54:
-				file_slov = "src/sixletters.txt";
+				file_slov = "/usr/share/wordly_rus/wordfiles/sixletters.txt";
 				int_number_of_liters = 6;
 				break;
 			case 55:
-				file_slov = "src/sevenletters.txt";
+				file_slov = "/usr/share/wordly_rus/wordfiles/sevenletters.txt";
 				int_number_of_liters = 7;
 				break;
 			}
