@@ -287,36 +287,46 @@ int chase_of_mods(std::string& file_slov) {//Функция выбора пол�
 	wchar_t next_liter = 0;
 	bool flag;
 	int int_number_of_liters = 0;
+	
 	do
 	{
 		flag = false;
 		std::wcout << L"  Пожалуйста, введите количество букв в слове (от 4 до 7) и нажмите ENTER: ";
 		std::wcin.get(number_of_liters);//Считываем основное число
 		std::wcin.get(next_liter);//Считываем следующий символ
-		if ((next_liter == L'\n') and ('4' <= number_of_liters) and (number_of_liters  <= '7')) {
+
+		if (number_of_liters == L'\n'){ //Случай, если пользователь сначала нажал ENTER
+			std::wcout << L"  " << BR << L"Пожалуйста, нажимайте ENTER после того как ввели число," << RESET << L" " << BG << L"СПАСИБО!" << RESET;
+			std::wcout << L"\n  Нажмите ENTER, чтобы повторить попытку ..." << std::endl; 
+			std::wcin.clear();
+			std::wcin.ignore(std::wcin.rdbuf()->in_avail()); // очистка буфера
+			while (std::wcin.get() != L'\n') {} // ожидание нажатия
+			std::wcin.clear();
+			std::wcin.ignore(std::wcin.rdbuf()->in_avail());
+
+			std::wcout << L"\x1b[5F\x1b[0J";
+			flag = true;
+		}
+		else if ((next_liter == L'\n') and ('4' <= number_of_liters) and (number_of_liters  <= '7')) {//Случай если всё хорошо, второй сивол это сивол перевода на новую строку
 			switch (int(number_of_liters))
 			{
-			case 52:
+			case 52://если '4'
 				file_slov = "/usr/share/wordly_rus/wordfiles/fourletters.txt";
 				int_number_of_liters = 4;
 				break;
-			case 53:
+			case 53://если '5'
 				file_slov = "/usr/share/wordly_rus/wordfiles/fiveletters.txt";
 				int_number_of_liters = 5;
 				break;
-			case 54:
+			case 54://если '6'
 				file_slov = "/usr/share/wordly_rus/wordfiles/sixletters.txt";
 				int_number_of_liters = 6;
 				break;
-			case 55:
+			case 55://если '7'
 				file_slov = "/usr/share/wordly_rus/wordfiles/sevenletters.txt";
 				int_number_of_liters = 7;
 				break;
 			}
-
-			std::wcout << L"\x1b[1F\x1b[0J";//Поднялись на строку вверх, стерли всё до конца терминала
-			std::wcout << L"  Количество букв в слове: " << number_of_liters << L"\n\n";//Вывод сообщения о выбраном режиме
-
 		}
 		else
 		{
@@ -331,9 +341,15 @@ int chase_of_mods(std::string& file_slov) {//Функция выбора пол�
 			std::wcout << L"\x1b[4F\x1b[0J";
 			flag = true;
 		}
+
 		std::wcin.clear();// очистка буфера
 		std::wcin.ignore(std::cin.rdbuf()->in_avail());
+
 	} while (flag);
+
+	std::wcout << L"\x1b[1F\x1b[0J";//Поднялись на строку вверх, стерли всё до конца терминала
+	std::wcout << L"  Количество букв в слове: " << number_of_liters << L"\n\n";//Вывод сообщения о выбраном режиме
+
 	return int_number_of_liters;//Возврашаем количество букв
 }
 	
