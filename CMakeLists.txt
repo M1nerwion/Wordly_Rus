@@ -16,7 +16,7 @@ target_link_libraries(wordly_rus functions)
 set(CPACK_PACKAGE_NAME "wordly_rus")
 set(CPACK_PACKAGE_VERSION "1.0.0")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Nikpop228 && M1nerwion")
-set(CPACK_GENERATOR DEB RPM WIX DragNDrop)
+set(CPACK_GENERATOR DEB RPM)
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Game Wordle on Russian created with CMake")
 
 install(TARGETS wordly_rus DESTINATION /usr/bin)
